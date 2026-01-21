@@ -1,26 +1,28 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebApplication4.Data;
-using WebApplication4.Services;
+using WebApplication5.Data;
+using WebApplication5.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Services
+// Controllers
 builder.Services.AddControllers();
+
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Database
 builder.Services.AddDbContext<RadioStationDbContext>(options =>
-    options.UseSqlite("Data Source=radio.db"));
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Services
 builder.Services.AddScoped<AiMusicService>();
 
-// CORS (important for frontend)
+// CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("frontend",
-        policy => policy.AllowAnyOrigin()
-                        .AllowAnyHeader()
-                        .AllowAnyMethod());
+    options.AddPolicy("AllowFrontend", policy =>
+        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 });
 
 var app = builder.Build();
@@ -28,9 +30,11 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseCors("frontend");
+app.UseCors("AllowFrontend");
 
 app.UseHttpsRedirection();
+app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();

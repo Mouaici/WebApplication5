@@ -1,55 +1,16 @@
-﻿using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json;
-
-namespace WebApplication4.Services;
+﻿namespace WebApplication5.Services;
 
 public class AiMusicService
 {
-    private readonly HttpClient _httpClient;
-    private readonly IConfiguration _config;
-
-    public AiMusicService(IConfiguration config)
+    public Task<List<string>> GeneratePlaylist(string genre, string mood)
     {
-        _httpClient = new HttpClient();
-        _config = config;
-    }
-
-    public async Task<string> GeneratePlaylist(string genre, string mood)
-    {
-        var prompt = $"""
-        Generate a radio playlist.
-        Genre: {genre}
-        Mood: {mood}
-        Return 10 tracks as JSON with artist and title.
-        """;
-
-        var body = new
+        var playlist = new List<string>
         {
-            model = "gpt-4o-mini",
-            messages = new[]
-            {
-                new { role = "user", content = prompt }
-            }
+            $"{genre} Track 1 ({mood})",
+            $"{genre} Track 2 ({mood})",
+            $"{genre} Track 3 ({mood})"
         };
 
-        var request = new HttpRequestMessage(
-            HttpMethod.Post,
-            "https://api.openai.com/v1/chat/completions"
-        );
-
-        request.Headers.Authorization =
-            new AuthenticationHeaderValue("Bearer", _config["OpenAI:ApiKey"]);
-
-        request.Content = new StringContent(
-            JsonSerializer.Serialize(body),
-            Encoding.UTF8,
-            "application/json"
-        );
-
-        var response = await _httpClient.SendAsync(request);
-        response.EnsureSuccessStatusCode();
-
-        return await response.Content.ReadAsStringAsync();
+        return Task.FromResult(playlist);
     }
 }

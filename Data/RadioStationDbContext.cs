@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebApplication4.Models;
+using WebApplication5.Models;
 
-namespace WebApplication4.Data;
+namespace WebApplication5.Data;
 
 public class RadioStationDbContext : DbContext
 {

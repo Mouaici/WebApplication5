@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebApplication4.Data;
-using WebApplication4.Models;
+using WebApplication5.Data;
+using WebApplication5.Models;
 
-namespace WebApplication4.Controllers;
+namespace WebApplication5.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
