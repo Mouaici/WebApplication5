@@ -370,3 +370,4 @@ appsettings.Production.json
 appsettings.Development.json
 appsettings.Production.json
 .env
+git filter-branch --force --index-filter "git rm --cached --ignore-unmatch appsettings.Development.json" --prune-empty --tag-name-filter cat -- --all
