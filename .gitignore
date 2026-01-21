@@ -367,3 +367,6 @@ appsettings.Production.json
 
 # Local secrets
 .env
+appsettings.Development.json
+appsettings.Production.json
+.env
