@@ -7,18 +7,19 @@ namespace WebApplication5.Controllers;
 [Route("api/ai/music")]
 public class AiMusicController : ControllerBase
 {
-    private readonly AiMusicService _ai;
+    private readonly AiMusicService _service;
 
-    public AiMusicController(AiMusicService ai)
+    public AiMusicController(AiMusicService service)
     {
-        _ai = ai;
+        _service = service;
     }
 
-    // GET: api/ai/music/playlist?genre=Pop&mood=Happy
     [HttpGet("playlist")]
-    public async Task<IActionResult> Generate(string genre, string mood)
+    public async Task<IActionResult> Generate(
+        [FromQuery] string genre,
+        [FromQuery] string mood)
     {
-        var result = await _ai.GeneratePlaylist(genre, mood);
+        var result = await _service.GeneratePlaylist(genre, mood);
         return Ok(result);
     }
 }
